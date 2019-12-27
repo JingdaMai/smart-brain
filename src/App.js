@@ -53,26 +53,19 @@ class App extends Component {
   }
 
   calculateFaceLocations = (data) => {
-    const regions = data.outputs[0].data.regions;
-    const faces = regions.map((region) => {
-      return region.region_info.bounding_box;
-    });
     const image = document.getElementById('inputimage');
     const width = Number(image.width);
     const height = Number(image.height);
 
-    const boxes = faces.map((face) => {
+    return data.outputs[0].data.regions.map((region) => {
+      const box = region.region_info.bounding_box;
       return {
-        leftCol: face.left_col * width,
-        topRow: face.top_row * height,
-        rightCol: width - (face.right_col * width),
-        bottomRow: height - (face.bottom_row * height)
+        leftCol: box.left_col * width,
+        topRow: box.top_row * height,
+        rightCol: width - (box.right_col * width),
+        bottomRow: height - (box.bottom_row * height)
       }
     });
-    
-    console.log(boxes);
-
-    return boxes;
   }
 
   displayFaceBox = (boxes) => {
