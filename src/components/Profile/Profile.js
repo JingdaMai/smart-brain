@@ -69,7 +69,7 @@ class Profile extends Component {
                 name="user-age"
                 id="age"
               />
-              <label className="mt2 fw6" htmlFor="user-pet">Email:</label>
+              <label className="mt2 fw6" htmlFor="user-pet">Pet:</label>
               <input
                 onChange={this.onFormChange}
                 className="pa2 ba w-100"

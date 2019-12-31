@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import './Modal.css';
 
 const modalRoot = document.getElementById('modal-root');
 
-class Modal extends Component {
+class Modal extends React.Component {
   constructor(props) {
     super(props);
     this.el = document.createElement('div');
@@ -15,7 +15,7 @@ class Modal extends Component {
   }
 
   componentWillUnmount() {
-    modalRoot.remove(this.el);
+    modalRoot.removeChild(this.el);
   }
 
   render() {
