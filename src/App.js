@@ -84,11 +84,16 @@ class App extends Component {
       name: data.name,
       email: data.email,
       entries: data.entries,
-      joined: data.joined
+      joined: data.joined,
+      pet: data.pet,
+      age: data.age
     }})
   }
 
   calculateFaceLocations = (data) => {
+    if (!data || !data.outputs) {
+      return;
+    }
     const image = document.getElementById('inputimage');
     const width = Number(image.width);
     const height = Number(image.height);
@@ -105,7 +110,9 @@ class App extends Component {
   }
 
   displayFaceBox = (boxes) => {
-    this.setState({boxes: boxes});
+    if (boxes) {
+      this.setState({boxes: boxes});
+    }
   }
 
   onInputChange = (event) => {
@@ -116,7 +123,10 @@ class App extends Component {
     this.setState({imageUrl: this.state.input});
       fetch('http://localhost:3000/imageurl', {
         method: 'post',
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': window.sessionStorage.getItem('token')
+        },
         body: JSON.stringify({
           input: this.state.input
         })
@@ -126,7 +136,10 @@ class App extends Component {
         if (response) {
           fetch('http://localhost:3000/image', {
             method: 'put',
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': window.sessionStorage.getItem('token')
+            },
             body: JSON.stringify({
               id: this.state.user.id
             })
@@ -145,7 +158,16 @@ class App extends Component {
 
   onRouteChange = (route) => {
     if (route === 'signout') {
-      return this.setState(initialState);
+      this.setState(initialState);
+      fetch('http://localhost:3000/signout', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': window.sessionStorage.getItem('token')
+        }
+      })
+      window.sessionStorage.removeItem('token');
+      return;
     } else if (route === 'home') {
       this.setState({isSignedIn: true});
     }

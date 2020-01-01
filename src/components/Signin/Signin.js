@@ -50,7 +50,7 @@ class Signin extends React.Component {
               }
             })
           .catch(console.log)
-          }
+        }
       })
   }
 
