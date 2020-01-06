@@ -1,6 +1,14 @@
 # SmartBrain - v2
 Final project for Udemy course
 
-1. Clone this repo
-2. Run `npm install`
-3. Run `npm start`
+Added new style
+
+Modified code strucure
+
+Updated Create React App for Environment variables to work
+
+------
+## Run
+
+1. npm install
+2. npm start
