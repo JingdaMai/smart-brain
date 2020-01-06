@@ -12,3 +12,7 @@ Updated Create React App for Environment variables to work
 
 1. npm install
 2. npm start
+
+------
+## Deployment
+Deploy to Heroku https://smart-brain-app-v2-mjd.herokuapp.com/
