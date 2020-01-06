@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './Signin.css';
 
-class Signin extends React.Component {
+class Signin extends Component {
   constructor(props) {
     super(props);
     this.state = {
       signInEmail: '',
-      signInPassword: ''
+      signInPassword: '',
+      error: ''
     }
   }
 
@@ -50,6 +51,8 @@ class Signin extends React.Component {
               }
             })
           .catch(console.log)
+        } else {
+          this.setState({error: 'failed to sign in'})
         }
       })
   }
@@ -83,6 +86,7 @@ class Signin extends React.Component {
                 />
               </div>
             </fieldset>
+            {this.state.error && <p className='tc red'>{this.state.error}</p>}
             <div className="">
               <input
                 onClick={this.onSubmitSignIn}

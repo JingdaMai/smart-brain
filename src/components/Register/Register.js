@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-class Register extends React.Component {
+class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
       email: '',
       password: '',
-      name: ''
+      name: '',
+      error: ''
     }
   }
 
@@ -26,7 +27,7 @@ class Register extends React.Component {
     window.sessionStorage.setItem('token', token);
   }
 
-  onSubmitSignIn = () => {
+  onSubmitRegister = () => {
     fetch(`${process.env.REACT_APP_API_URL}/register`, {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
@@ -37,26 +38,45 @@ class Register extends React.Component {
       })
     })
       .then(response => response.json())
-      .then(data => {
-        if (data.userId && data.success === 'true') {
-          this.saveAuthTokenInSession(data.token);
-          fetch(`${process.env.REACT_APP_API_URL}/profile/${data.userId}`, {
-            method: 'get',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': data.token
-            }
-          })
-            .then(resp => resp.json())
-            .then(user => {
-              if (user && user.email) {
-                this.props.loadUser(user);
-                this.props.onRouteChange('home');
+      .catch(err => {
+        console.log(err);
+        this.setState({error: 'unable to register'})
+      })
+        .then(data => {
+          if (data.userId && data.success === 'true') {
+            this.saveAuthTokenInSession(data.token);
+            fetch(`${process.env.REACT_APP_API_URL}/profile/${data.userId}`, {
+              method: 'get',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': data.token
               }
             })
-          .catch(console.log)
-        }
-      })
+              .then(resp => resp.json())
+              .catch(err => {
+                console.log(err);
+                this.setState({error: 'unable to register'})
+              })
+              .then(user => {
+                if (user && user.email) {
+                  this.setState({error: ''})
+                  this.props.loadUser(user);
+                  this.props.onRouteChange('home');
+                }
+              })
+              .catch(err => {
+                console.log(err);
+                this.setState({error: 'unable to register'})
+              })
+          } else {
+            this.setState({error: 'unable to register'});
+          }
+
+        })
+        .catch(err => {
+          console.log(err);
+          this.setState({error: 'unable to register'})
+        })
   }
 
   render() {
@@ -97,9 +117,10 @@ class Register extends React.Component {
                 />
               </div>
             </fieldset>
+            {this.state.error && <p className='tc red'>{this.state.error}</p>}
             <div className="">
               <input
-                onClick={this.onSubmitSignIn}
+                onClick={this.onSubmitRegister}
                 className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
                 type="submit"
                 value="Register"

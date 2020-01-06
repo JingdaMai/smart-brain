@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import Particle from './components/Particle/Particle';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import Navigation from './components/Navigation/Navigation';
@@ -9,6 +10,7 @@ import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
 import Modal from './components/Modal/Modal';
 import Profile from './components/Profile/Profile';
+
 import './App.css';
 
 const initialState = {
@@ -97,7 +99,7 @@ class App extends Component {
     });
   }
 
-  displayFaceBox = (boxes) => {
+  displayFaceBoxes = (boxes) => {
     if (boxes) {
       this.setState({boxes: boxes});
     }
@@ -139,9 +141,9 @@ class App extends Component {
             .catch(console.log)
 
         }
-        this.displayFaceBox(this.calculateFaceLocations(response))
+        this.displayFaceBoxes(this.calculateFaceLocations(response))
       })
-      .catch(err => console.log(err));
+      .catch(console.log);
   }
 
   onRouteChange = (route) => {
