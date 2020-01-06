@@ -48,7 +48,7 @@ class App extends Component {
   componentDidMount() {
     const token = window.sessionStorage.getItem('token');
     if (token) {
-      fetch('http://localhost:3000/signin', {
+      fetch(`${process.env.REACT_APP_API_URL}/signin`, {
         method: 'post',
         headers: {
           'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ class App extends Component {
         .then(resp => resp.json())
         .then(data => {
           if (data && data.userId) {
-            fetch(`http://localhost:3000/profile/${data.userId}`, {
+            fetch(`${process.env.REACT_APP_API_URL}/profile/${data.userId}`, {
               method: 'get',
               headers: {
                 'Content-Type': 'application/json',
@@ -121,7 +121,7 @@ class App extends Component {
 
   onButtonSubmit = () => {
     this.setState({imageUrl: this.state.input});
-      fetch('http://localhost:3000/imageurl', {
+      fetch(`${process.env.REACT_APP_API_URL}/imageurl`, {
         method: 'post',
         headers: {
           'Content-Type': 'application/json',
@@ -134,7 +134,7 @@ class App extends Component {
       .then(response => response.json())
       .then(response => {
         if (response) {
-          fetch('http://localhost:3000/image', {
+          fetch(`${process.env.REACT_APP_API_URL}/image`, {
             method: 'put',
             headers: {
               'Content-Type': 'application/json',
@@ -159,7 +159,7 @@ class App extends Component {
   onRouteChange = (route) => {
     if (route === 'signout') {
       this.setState(initialState);
-      fetch('http://localhost:3000/signout', {
+      fetch(`${process.env.REACT_APP_API_URL}/signout`, {
         method: 'post',
         headers: {
           'Content-Type': 'application/json',

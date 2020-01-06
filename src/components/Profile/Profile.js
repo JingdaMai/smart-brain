@@ -28,7 +28,7 @@ class Profile extends Component {
   }
 
   onProfileUpdate = (data) => {
-    fetch(`http://localhost:3000/profile/${this.props.user.id}`, {
+    fetch(`${process.env.REACT_APP_API_URL}/profile/${this.props.user.id}`, {
       method: 'post',
       headers: {
         'Content-type': 'application/json',
